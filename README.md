@@ -1,3 +1,10 @@
+## Install package
+
+```
+pip3 install -r requirements.txt
+```
+
+
 ## Train
 
 ```
