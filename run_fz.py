@@ -10,8 +10,8 @@ from dynamics import simpleModel
 
 def main(feed):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int, default=30)
-    parser.add_argument('--pre_epochs', type=int, default=20)
+    parser.add_argument('--epochs', type=int, default=2000)
+    parser.add_argument('--pre_epochs', type=int, default=200)
     parser.add_argument('--max_step', type=int, default=1000)
     parser.add_argument('--expert_dir', type=str, default='FZ_demo.npz')
     parser.add_argument('--batch_num', type=int, default=128)
@@ -19,6 +19,7 @@ def main(feed):
     args = parser.parse_args()
 
     os.makedirs("results", exist_ok=True)
+    os.makedirs("checkpoints/pretrain", exist_ok=True)
 
     expert_data = np.load('expert_traj/' + args.expert_dir, allow_pickle=True)
     expert = expert_data

@@ -156,7 +156,7 @@ class GeneratorModel:
         v_func = self.session.run(self.v_func, feed_dict)
         return v_func
 
-    def save_model(self, path="checkpoints/model_gen", noprint=False):
+    def save_model(self, path, noprint=False):
         if not noprint:
             self.saver.save(self.session, path)
             print(path)
@@ -164,7 +164,7 @@ class GeneratorModel:
         else:
             self.saver.save(self.session, path)
 
-    def load_model(self, path='checkpoints/model_gen', noprint=False):
+    def load_model(self, path, noprint=False):
         if not noprint:
             print(path)
             print('startgen')
@@ -172,10 +172,3 @@ class GeneratorModel:
             print('restored')
         else:
             self.saver.restore(self.session, path)
-
-    def load_success_model(self):
-        restore_model = 'success_model/model_gen'
-        print(restore_model)
-        print('startgen')
-        self.saver.restore(self.session, restore_model)
-        print('restored')

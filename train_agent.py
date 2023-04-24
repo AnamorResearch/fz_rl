@@ -81,7 +81,7 @@ def train_with_evaluate(env, feed, agent, epochs, max_step, gamma):
         early_stopping_count = 0
         try:
             if epoch:
-                agent.generator.load_model(noprint=True)
+                agent.generator.load_model(path="checkpoints/model_gen", noprint=True)
         except ValueError:
             pass
 
@@ -122,11 +122,12 @@ def train_with_evaluate(env, feed, agent, epochs, max_step, gamma):
             advantages=advantages,
             v_old=values, lr=gen_lr)
 
-        agent.generator.save_model(noprint=True)
+        agent.generator.save_model(path="checkpoints/model_gen", noprint=True)
         early_stopping_count = 0
         better_cost = cost.mean()
         if better_cost < best_cost:
             best_cost = better_cost
+            agent.generator.save_model(path="best_model/model_gen")
         if epoch % 10 == 0:
             results = np.hstack((buffer.states, buffer.actions))
             np.savetxt('results/result_' + str(epoch) + '.csv', results, delimiter=',')
@@ -136,9 +137,6 @@ def train_with_evaluate(env, feed, agent, epochs, max_step, gamma):
             break
 
         print("loss: ", better_cost, " best: ", best_cost)
-        if epoch > 1000 and better_cost < best_cost:
-            best_cost = better_cost
-            agent.generator.save_model(path="saved_reward_model/model_gen")
 
         all_buffer = RolloutBuffer()
         for i in rollout_buffer:
